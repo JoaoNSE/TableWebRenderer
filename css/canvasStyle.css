@@ -1,0 +1,9 @@
+.canvas-table table {
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+
+.canvas-table td {
+    width: 1px;
+    height: 1px;
+}
