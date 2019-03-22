@@ -4,14 +4,7 @@ const Y = 200; //altura
 const canvasBefore = []
 const canvasAfter = []
 
-/**
- * Converte a posição de matriz para vetor.
- * @param {*} x Posição em x
- * @param {*} y Posição em y
- */
-function idx(x, y) {
-    return x + (X*y);
-}
+const rend = new Renderer();
 
 /**
  * Ordem de execução das funções que renderizam.
@@ -19,14 +12,18 @@ function idx(x, y) {
  * Deve terminar com renderCanvas().
  */
 function renderQueueStart() {
-    initCanvasData();
-    //estaticaNoise();
-    //redToGreen();
-    cell();
-    //estatica();
-    
-    
-    renderCanvas();
+    rend.addStep(initCanvasData);
+    rend.addStep(cell);
+    rend.addStep(renderCanvas);
+    rend.renderOnce();
+    rend.clearQueue();
+}
+
+//Inicia o processo de renderização
+setInterval(renderQueueStart, 10);
+
+function idx(x, y) {
+    return new Renderer().idx(x, y);
 }
 
 //============ Aplicação de Efeitos ===============
@@ -136,9 +133,6 @@ function renderCanvas() {
 
     document.querySelector('#canvas').innerHTML = html;
 }
-
-//Inicia o processo de renderização
-renderQueueStart();
 
 //========================= FUNÇÕES UTILITÁRIAS =======================
 //Aqui são definidas as funções utilitárias para os passos da renderização.
